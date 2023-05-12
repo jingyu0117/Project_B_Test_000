@@ -10,6 +10,19 @@ public class PlayerController : MonoBehaviour
     Vector3 velocity;
     public ProjectileController projectileController;
     // Start is called before the first frame update
+
+    public int Player_hp = 20;
+
+    public void Monster_Damaged(int damage)
+    {
+        Player_hp -= damage;
+
+        if (Player_hp <= 0)
+        {
+            GameObject temp = this.gameObject;
+            Destroy(temp);
+        }
+    }
     void Start()
     {
         viewCamera = Camera.main;

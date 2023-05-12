@@ -1,10 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class ProjectileMove : MonoBehaviour
 {
     public Vector3 launchDirection;
+
+    public enum BULLETTYPE
+    {
+        PLAYER,
+        ENEMY
+    }
+
+    public BULLETTYPE bulletType = BULLETTYPE.PLAYER;
 
     private void FixedUpdate()
     {
@@ -39,9 +48,16 @@ public class ProjectileMove : MonoBehaviour
             Destroy(temp);
         }
 
-        if (other.gameObject.tag == "Monster")
+        if (other.gameObject.tag == "Monster" && bulletType == BULLETTYPE.PLAYER)
         {
             other.gameObject.GetComponent<MonsterController>().Monster_Damaged(1);
+            //other.gameObject.transform.DOPunchScale(new Vector3(0.5f, 0.5f, 0.5f), 0.1f, 10, 1);
+            GameObject temp = this.gameObject;
+            Destroy(temp);
+        }
+        if (other.gameObject.tag == "Player" && bulletType == BULLETTYPE.ENEMY)
+        {
+            other.gameObject.GetComponent<PlayerController>().Monster_Damaged(1);
             GameObject temp = this.gameObject;
             Destroy(temp);
         }
